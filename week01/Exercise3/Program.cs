@@ -28,6 +28,6 @@ class Program
             guess = int.Parse(Console.ReadLine());
         }
 
-        Console.WriteLine("u guessed it!");
+        Console.WriteLine("You guessed it!");
     }
 }
