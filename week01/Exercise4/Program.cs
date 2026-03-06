@@ -61,7 +61,7 @@ class Program
         Console.WriteLine($"The largest number is: {max}");
         Console.WriteLine($"The smallest positive number is: {smallest}");
 
-        Console.WriteLine("The sorted list is:");
+        Console.WriteLine("e sorted list is:");
         foreach (int num in numbers)
         {
             Console.WriteLine(num);
