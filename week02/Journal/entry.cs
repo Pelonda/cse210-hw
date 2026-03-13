@@ -7,7 +7,7 @@ public class Entry
     public string _promptText = "";
     public string _entryText = "";
 
-    // Default constructor
+    // Default constructor this
     public Entry()
     {
     }
