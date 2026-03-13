@@ -8,19 +8,21 @@ public class PromptGenerator
 
     public PromptGenerator()
     {
-        // Example starter prompts 
-        _prompts.Add("What made you smile today?");
-        _prompts.Add("Describe a challenge you faced this week.");
-        _prompts.Add("What are you grateful for right now?");
+        // At least five prompts as required 
+        _prompts.Add("Who was the most interesting person I interacted with today?");
+        _prompts.Add("What was the best part of my day?");
+        _prompts.Add("How did I see the hand of the Lord in my life today?");
+        _prompts.Add("What was the strongest emotion I felt today?");
+        _prompts.Add("If I had one thing I could do over today, what would it be?");
+        // Extra 
+        _prompts.Add("What small win did I have today?");
+        _prompts.Add("What am I grateful for right now?");
     }
 
-    // Returns a random prompt
+    // Returns a random prompt.
     public string GetRandomPrompt()
     {
-        if (_prompts == null || _prompts.Count == 0)
-        {
-            return "";
-        }
+        if (_prompts == null || _prompts.Count == 0) return "";
         int i = _rand.Next(_prompts.Count);
         return _prompts[i];
     }

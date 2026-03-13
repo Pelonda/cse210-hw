@@ -4,13 +4,12 @@ using System.IO;
 
 public class Journal
 {
+    // List of entries 
     public List<Entry> _entries = new List<Entry>();
 
-    public Journal()
-    {
-    }
+    public Journal() { }
 
-    // Add an Entry 
+    // AddEntry encapsulates 
     public void AddEntry(Entry newEntry)
     {
         if (newEntry != null)
@@ -19,9 +18,15 @@ public class Journal
         }
     }
 
-    // Display all entries 
+    // Display all entries
     public void DisplayAll()
     {
+        if (_entries.Count == 0)
+        {
+            Console.WriteLine("No journal entries to show.");
+            return;
+        }
+
         Console.WriteLine("Journal Entries:");
         Console.WriteLine(new string('=', 40));
         foreach (Entry e in _entries)
@@ -30,43 +35,60 @@ public class Journal
         }
     }
 
-    // Save the journal to a simple text file.
-    
-    public void SaveToFile(string file)
+    // ---ENTRY---
+    public void SaveToFile(string filename)
     {
-        List<string> lines = new List<string>();
-        foreach (Entry e in _entries)
+        try
         {
-            lines.Add(e._date ?? "");
-            lines.Add(e._promptText ?? "");
-            lines.Add(e._entryText ?? "");
-            lines.Add("---"); // separator
+            using (StreamWriter writer = new StreamWriter(filename))
+            {
+                foreach (Entry e in _entries)
+                {
+                    writer.WriteLine(e._date ?? "");
+                    writer.WriteLine(e._promptText ?? "");
+                    writer.WriteLine(e._entryText ?? "");
+                    writer.WriteLine("---ENTRY---");
+                }
+            }
+            Console.WriteLine($"Journal saved to '{filename}'.");
         }
-        File.WriteAllLines(file, lines);
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving file: {ex.Message}");
+        }
     }
 
-    // Load a journal from the simple text format written above.
-    
-    public void LoadFromFile(string file)
+    // Load from file produced above.
+    public void LoadFromFile(string filename)
     {
         _entries.Clear();
-        if (!File.Exists(file))
+
+        if (!File.Exists(filename))
         {
+            Console.WriteLine($"File '{filename}' not found.");
             return;
         }
 
-        string[] lines = File.ReadAllLines(file);
-        for (int i = 0; i < lines.Length; )
+        try
         {
-            // Expecting: date, prompt, entry, separator
-            string date = (i < lines.Length) ? lines[i++] : "";
-            string prompt = (i < lines.Length) ? lines[i++] : "";
-            string entryText = (i < lines.Length) ? lines[i++] : "";
-            // consume separator if present
-            if (i < lines.Length && lines[i] == "---") i++;
+            string[] lines = File.ReadAllLines(filename);
+            for (int i = 0; i < lines.Length; )
+            {
+                string date = (i < lines.Length) ? lines[i++] : "";
+                string prompt = (i < lines.Length) ? lines[i++] : "";
+                string entryText = (i < lines.Length) ? lines[i++] : "";
 
-            Entry e = new Entry(date, prompt, entryText);
-            _entries.Add(e);
+                // Consume separator line.
+                if (i < lines.Length && lines[i] == "---ENTRY---") i++;
+
+                Entry e = new Entry(date, prompt, entryText);
+                _entries.Add(e);
+            }
+            Console.WriteLine($"Loaded {_entries.Count} entries from '{filename}'.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading file: {ex.Message}");
         }
     }
 }

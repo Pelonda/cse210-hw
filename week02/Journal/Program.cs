@@ -4,36 +4,88 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Create prompt 
-        PromptGenerator pg = new PromptGenerator();
-        Journal myJournal = new Journal();
+        PromptGenerator generator = new PromptGenerator();
+        Journal journal = new Journal();
 
-        // Create two example entries
-        Entry e1 = new Entry();
-        e1._date = DateTime.Now.ToString("yyyy-MM-dd");
-        e1._promptText = pg.GetRandomPrompt();
-        e1._entryText = "Today I started the journal project and wrote some sample text.";
+        bool running = true;
+        while (running)
+        {
+            Console.WriteLine("\nJournal Menu");
+            Console.WriteLine("1. Write a new entry");
+            Console.WriteLine("2. Display the journal");
+            Console.WriteLine("3. Save the journal to a file");
+            Console.WriteLine("4. Load the journal from a file");
+            Console.WriteLine("5. Quit");
+            Console.Write("Choose an option (1-5): ");
 
-        Entry e2 = new Entry(DateTime.Now.ToString("yyyy-MM-dd"), pg.GetRandomPrompt(),
-                             "Second sample entry showing how the journal holds entries.");
+            string choice = Console.ReadLine();
+            Console.WriteLine();
 
-        // Add entries to the journal
-        myJournal.AddEntry(e1);
-        myJournal.AddEntry(e2);
+            switch (choice)
+            {
+                case "1":
+                    WriteEntry(generator, journal);
+                    break;
+                case "2":
+                    journal.DisplayAll();
+                    break;
+                case "3":
+                    SaveJournal(journal);
+                    break;
+                case "4":
+                    LoadJournal(journal);
+                    break;
+                case "5":
+                    running = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please choose 1-5.");
+                    break;
+            }
+        }
 
-        // Display all entries
-        myJournal.DisplayAll();
+        Console.WriteLine("Goodbye!");
+    }
 
-        // Save to file 
-        string filename = "journal_data.txt";
-        myJournal.SaveToFile(filename);
-        Console.WriteLine($"Saved journal to {filename}");
+    static void WriteEntry(PromptGenerator generator, Journal journal)
+    {
+        string prompt = generator.GetRandomPrompt();
+        Console.WriteLine("Prompt:");
+        Console.WriteLine(prompt);
+        Console.WriteLine();
 
-        // Clear and reload 
-        myJournal = new Journal();
-        myJournal.LoadFromFile(filename);
-        Console.WriteLine("Reloaded journal from file:");
-        myJournal.DisplayAll();
+        Console.Write("Your response: ");
+        string response = Console.ReadLine();
 
+        // Use short date string per spec (store as string)
+        string dateText = DateTime.Now.ToShortDateString();
+
+        Entry e = new Entry(dateText, prompt, response);
+        journal.AddEntry(e);
+        Console.WriteLine("Entry added to journal.");
+    }
+
+    static void SaveJournal(Journal journal)
+    {
+        Console.Write("Enter filename to save (e.g. journal.txt): ");
+        string filename = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            Console.WriteLine("Invalid filename.");
+            return;
+        }
+        journal.SaveToFile(filename);
+    }
+
+    static void LoadJournal(Journal journal)
+    {
+        Console.Write("Enter filename to load (e.g. journal.txt): ");
+        string filename = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            Console.WriteLine("Invalid filename.");
+            return;
+        }
+        journal.LoadFromFile(filename);
     }
 }

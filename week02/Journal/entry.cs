@@ -2,17 +2,14 @@ using System;
 
 public class Entry
 {
-    // Member variables
+    // Member 
     public string _date = "";
     public string _promptText = "";
     public string _entryText = "";
 
-    // Default constructor this
-    public Entry()
-    {
-    }
+    // Constructors
+    public Entry() { }
 
-    // Convenience constructor
     public Entry(string date, string prompt, string text)
     {
         _date = date;
@@ -26,6 +23,6 @@ public class Entry
         Console.WriteLine($"Date: {_date}");
         Console.WriteLine($"Prompt: {_promptText}");
         Console.WriteLine($"Entry: {_entryText}");
-        Console.WriteLine(new string('-', 30));
+        Console.WriteLine(new string('-', 40));
     }
 }
