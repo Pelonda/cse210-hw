@@ -10,7 +10,7 @@ public class Journal
     {
     }
 
-    // Add an Entry instance to the journal
+    // Add an Entry 
     public void AddEntry(Entry newEntry)
     {
         if (newEntry != null)
@@ -19,7 +19,7 @@ public class Journal
         }
     }
 
-    // Display all entries by calling each Entry's Display method
+    // Display all entries 
     public void DisplayAll()
     {
         Console.WriteLine("Journal Entries:");
@@ -31,7 +31,7 @@ public class Journal
     }
 
     // Save the journal to a simple text file.
-    // Each entry is serialized as three lines then a separator line.
+    
     public void SaveToFile(string file)
     {
         List<string> lines = new List<string>();
@@ -46,7 +46,7 @@ public class Journal
     }
 
     // Load a journal from the simple text format written above.
-    // This is a simple loader and assumes the basic format used in SaveToFile.
+    
     public void LoadFromFile(string file)
     {
         _entries.Clear();

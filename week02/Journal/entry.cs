@@ -20,7 +20,7 @@ public class Entry
         _entryText = text;
     }
 
-    // Display the entry (simple readable format)
+    // Display the entry
     public void Display()
     {
         Console.WriteLine($"Date: {_date}");

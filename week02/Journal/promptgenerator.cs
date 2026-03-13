@@ -8,13 +8,13 @@ public class PromptGenerator
 
     public PromptGenerator()
     {
-        // Example starter prompts (teams can expand or load from file)
+        // Example starter prompts 
         _prompts.Add("What made you smile today?");
         _prompts.Add("Describe a challenge you faced this week.");
         _prompts.Add("What are you grateful for right now?");
     }
 
-    // Returns a random prompt; returns empty string if none available
+    // Returns a random prompt
     public string GetRandomPrompt()
     {
         if (_prompts == null || _prompts.Count == 0)
