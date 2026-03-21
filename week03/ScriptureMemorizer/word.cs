@@ -1,3 +1,5 @@
+using System.Text;
+
 public class Word
 {
     private string _text;
@@ -26,11 +28,25 @@ public class Word
 
     public string GetDisplayText()
     {
-        if (_isHidden)
+        if (!_isHidden)
         {
-            return new string('_', _text.Length);
+            return _text;
         }
 
-        return _text;
+        StringBuilder hiddenText = new StringBuilder();
+
+        foreach (char c in _text)
+        {
+            if (char.IsLetter(c))
+            {
+                hiddenText.Append('_');
+            }
+            else
+            {
+                hiddenText.Append(c);
+            }
+        }
+
+        return hiddenText.ToString();
     }
 }
