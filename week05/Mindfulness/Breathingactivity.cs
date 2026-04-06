@@ -3,23 +3,32 @@ using System;
 public class BreathingActivity : Activity
 {
     public BreathingActivity()
+        : base(
+            "Breathing",
+            "This activity will help you relax by walking you through breathing in and out slowly. Clear your mind and focus on your breathing.")
     {
-        _name = "Breathing";
-        _description = "This activity helps you relax by breathing slowly.";
     }
 
     public void Run()
     {
         DisplayStartingMessage();
 
-        int time = 0;
-        while (time < _duration)
+        DateTime endTime = DateTime.Now.AddSeconds(GetDuration());
+
+        while (DateTime.Now < endTime)
         {
-            Console.Write("\nBreathe in... ");
+            Console.Write("Breathe in... ");
             ShowCountDown(4);
-            Console.Write("\nBreathe out... ");
+            Console.WriteLine();
+
+            if (DateTime.Now >= endTime)
+            {
+                break;
+            }
+
+            Console.Write("Breathe out... ");
             ShowCountDown(4);
-            time += 8;
+            Console.WriteLine();
         }
 
         DisplayEndingMessage();

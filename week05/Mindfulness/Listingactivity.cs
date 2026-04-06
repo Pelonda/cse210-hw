@@ -5,38 +5,66 @@ public class ListingActivity : Activity
 {
     private List<string> _prompts = new List<string>()
     {
-        "Who are people you appreciate?",
-        "What are your personal strengths?",
-        "What made you smile today?"
+        "Who are people that you appreciate?",
+        "What are personal strengths of yours?",
+        "Who are people that you have helped this week?",
+        "When have you felt the Holy Ghost this month?",
+        "Who are some of your personal heroes?"
     };
 
     private Random _random = new Random();
+    private int _count;
 
     public ListingActivity()
+        : base(
+            "Listing",
+            "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.")
     {
-        _name = "Listing";
-        _description = "This activity helps you list positive things.";
+        _count = 0;
     }
 
     public void Run()
     {
         DisplayStartingMessage();
 
-        string prompt = _prompts[_random.Next(_prompts.Count)];
-        Console.WriteLine($"\n{prompt}");
-        Console.WriteLine("Start listing items:");
-        ShowCountDown(3);
+        Console.WriteLine("List as many responses as you can to the following prompt:");
+        Console.WriteLine();
+        Console.WriteLine($"--- {GetRandomPrompt()} ---");
+        Console.WriteLine();
+        Console.WriteLine("You may begin in: ");
+        ShowCountDown(5);
+        Console.WriteLine();
 
+        Console.WriteLine("Start listing items:");
+        _count = GetListFromUser();
+
+        Console.WriteLine();
+        Console.WriteLine($"You listed {_count} item(s).");
+
+        DisplayEndingMessage();
+    }
+
+    public string GetRandomPrompt()
+    {
+        return _prompts[_random.Next(_prompts.Count)];
+    }
+
+    public int GetListFromUser()
+    {
         int count = 0;
-        DateTime endTime = DateTime.Now.AddSeconds(_duration);
+        DateTime endTime = DateTime.Now.AddSeconds(GetDuration());
 
         while (DateTime.Now < endTime)
         {
-            Console.ReadLine();
-            count++;
+            Console.Write("> ");
+            string response = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(response))
+            {
+                count++;
+            }
         }
 
-        Console.WriteLine($"You listed {count} items!");
-        DisplayEndingMessage();
+        return count;
     }
 }
