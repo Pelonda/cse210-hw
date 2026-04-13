@@ -1,0 +1,2 @@
+Score|0
+ChecklistGoal|Interview success|Get the position and being selected.|100|0|100|60
